@@ -1,6 +1,6 @@
 # ICS675_Project
 
-Attempts to recreate a simplified feline phylogenic tree using the mitochondria genomes of 17 feline species.
+Attempts to recreate a simplified feline phylogenetic tree using the mitochondria genomes of 17 feline species.
 
 ## Making the Alignment Table
 run `python3 alignment_table` to make the alignment table for all feline genomes.
