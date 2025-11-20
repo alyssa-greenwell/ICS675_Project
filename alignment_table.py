@@ -25,6 +25,7 @@ def get_fastas(cats):
         path = "cat_mitochondria_genomes/" + cat + ".fasta"
         sequence = read_fasta(path)
         cat_sequences.append(sequence)
+    return cat_sequences
     
 def make_alignment_table(cats, cats_len):
     '''Creates a table of alignment scores of each feline compared to every
