@@ -22,7 +22,7 @@ def get_fastas(cats):
     returns the array of sequences.'''
     cat_sequences = []
     for cat in cats:
-        path = "cat_mitochondria_genomes/" + cat
+        path = "cat_mitochondria_genomes/" + cat + ".fasta"
         sequence = read_fasta(path)
         cat_sequences.append(sequence)
     
