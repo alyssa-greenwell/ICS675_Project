@@ -23,7 +23,10 @@ class Aligner():
             seq2_char = seq2[i-1]
             for j in range(1, x_len):
                 seq1_char = seq1[j-1]
-                dia_score = self.score_matrix[self.score_map[seq2_char]][self.score_map[seq1_char]]
+                try:
+                    dia_score = self.score_matrix[self.score_map[seq2_char]][self.score_map[seq1_char]]
+                except Exception as e:
+                    dia_score = 1
                 dia = global_matrix[i-1][j-1] + dia_score
                 hor = global_matrix[i][j-1] + self.gap_penalty
                 ver = global_matrix[i-1][j] + self.gap_penalty
