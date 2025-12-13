@@ -1,15 +1,15 @@
 # -*- coding: utf-8 -*-
 #!/usr/bin/env python
 """
-Generates a phylogenetic tree for seventeen felidae species.
+Generates two phylogenetic trees for seventeen felidae species.
 
-Processes the distance matrix from a CSV file, uses the UPGMA class to build a
-phylogenetic tree, and runs tree_plotter.py to generate a visualization of the
-tree. The taxon labels are hard-coded.
+Processes the distance matrix from a CSV file, uses the UPGMA and Neighbor 
+Joining classes to build a phylogenetic tree, and runs tree_plotter.py to 
+generate a visualization of the tree. The taxon labels are hard-coded.
 """
 import csv
 import subprocess
-from phylo_clustering import UPGMA
+from phylo_clustering import UPGMA, NeighborJoining
 
 def read_csv_to_int_array(filename):
     array = []
@@ -28,11 +28,15 @@ if __name__ == "__main__":
             "sunda_clouded_leopard", "tiger"]
     
     # Create distance matrix from CSV file
-    distance_matrix = read_csv_to_int_array("alignment_table.csv")
+    distance_matrix = read_csv_to_int_array("output/alignment_table.csv")
     
     # Build the UPGMA tree
-    tree_builder = UPGMA(distance_matrix, labels)
-    tree_builder.run("upgma_output.txt")
+    upgma_tree_builder = UPGMA(distance_matrix, labels)
+    upgma_tree_builder.run("upgma_output.txt")
+    
+    # Build the Neighbor Joining tree
+    nj_tree_builder = NeighborJoining(distance_matrix, labels)
+    nj_tree_builder.run("nj_output.txt")
     
     # Generate visualization of tree
     subprocess.run([
@@ -41,5 +45,13 @@ if __name__ == "__main__":
         "upgma_output.txt",
         "-o",
         "UPGMA_plot.png"
+    ])
+    
+    subprocess.run([
+        "python",
+        "tree_plotter.py",
+        "nj_output.txt",
+        "-o",
+        "Neighbor_Joining_plot.png"
     ])
     
