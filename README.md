@@ -3,9 +3,9 @@
 Attempts to recreate a simplified feline phylogenetic tree using the mitochondria genomes of 17 feline species.
 
 ## Making the Alignment Table
-Run `python3 alignment_table.py` to make the alignment table for all feline genomes. This outputs a file called [alignment_table.csv](output/alignment_table.csv).
+Run `python3 alignment_table.py` to make the alignment table for all feline genomes. This outputs a file called [alignment_table.csv](output/alignment_table.csv). For best results, run this file on 32 cores to use the multithreading as intended.
 
-To run in demo mode and generate a 3x3 demo matrix using just the asiatic golden cat, bobcat, and cheetah, run `python3 alignment_table.py --demo`. This will generate output into a file called DEMO_alignment_table.py.
+To run in demo mode and generate a 3x3 demo matrix using just the asiatic golden cat, bobcat, and cheetah, run `python3 alignment_table.py --demo`. This will generate output into a file called DEMO_alignment_table.py. For best results, run this using 6 cores.
 
 ## Making the Phylogenetic Tree
 To generate the phylogenetic tree, run `python3 phylogenetic_tree.py`. This will use the UPGMA algorithm found in [phylo_clustering.py](phylo_clustering.py) to define all the nodes of the tree, then use [tree_plotter.py](tree_plotter.py) to generate a visualization of the tree. This will produce four output files, the first two called called [upgma_output.txt](output/upgma_output.txt) and [nj_output.txt](output/nj_output.txt) which list all internal nodes and edge lengths in the tree UPGMA and Neighbor Joining trees respectively. The second pair of files are [UPGMA_plot.png](output/UPGMA_plot.png) and [Neighbor_Joining_plot.png](output/Neighbor_Joining_plot.png), which are images of the phylogenetic trees.
