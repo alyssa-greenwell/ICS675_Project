@@ -10,6 +10,9 @@ class UPGMA():
     def __init__(self, matrix, labels):
         self.dm = copy.deepcopy(matrix)
         self.labels = labels[:]
+
+        self.heights = {label: 0.0 for label in labels}
+        self.sizes = {label: 1 for label in labels}
     
     def run(self, output_filename):
         internal_nodes = []
@@ -27,38 +30,55 @@ class UPGMA():
                         child_one_index = j
                         child_two_index = i
                         
+            new_height = min_distance / 2
+
+            child_one = self.labels[child_one_index]
+            child_two = self.labels[child_two_index]
+
+            branch_one = new_height - self.heights[child_one]
+            branch_two = new_height - self.heights[child_two]
+            
             # Create a parent node
-            internal_nodes.append([node_index, self.labels[child_two_index], self.labels[child_one_index], (min_distance / 2)])
+            internal_nodes.append([node_index, child_one, branch_one])
+            internal_nodes.append([node_index, child_two, branch_two])
             
             # Update Tree
-            # To prevent indices being messed up, the child with a greater index must be deleted first.
             child_to_delete_first = max(child_one_index, child_two_index)
             child_to_delete_second = min(child_one_index, child_two_index)
+
             del self.dm[child_to_delete_first]
             del self.dm[child_to_delete_second]
             del self.labels[child_to_delete_first]
             del self.labels[child_to_delete_second]
+
             new_row = []
             for i in range(len(self.labels)):
                 dist_one = self.dm[i].pop(child_to_delete_first)
                 dist_two = self.dm[i].pop(child_to_delete_second)
-                new_dist = (dist_one + dist_two)/2
+
+                size1 = self.sizes[child_one]
+                size2 = self.sizes[child_two]
+                new_dist = (size1 * dist_one + size2 * dist_two) / (size1 + size2)
+
                 self.dm[i].append(new_dist)
                 new_row.append(new_dist)
+
             new_row.append(0)
             self.dm.append(new_row)
             self.labels.append(node_index)
+            self.heights[node_index] = new_height
+            self.sizes[node_index] = size1 + size2
+
             node_index += 1
         
         # Write to output file
         with open(output_filename, "w") as f:
             for node in internal_nodes:
-                output_string = str(node[1]) + "\t" + str(node[0]) + "\t" + str(node[3]) + "\n"
-                f.write(output_string)
-                output_string = str(node[2]) + "\t" + str(node[0]) + "\t" + str(node[3]) + "\n"
+                output_string = str(node[1]) + "\t" + str(node[0]) + "\t" + str(node[2]) + "\n"
                 f.write(output_string)
         
         return
+
 
 class NeighborJoining():
     """
@@ -111,7 +131,7 @@ class NeighborJoining():
             
             # Update Tree
             # To prevent indices being messed up, the child with a greater index must be deleted first.
-            children_dist = self.dm[i][j]
+            children_dist = self.dm[i_min][j_min]
             child_to_delete_first = max(i_min, j_min)
             child_to_delete_second = min(i_min, j_min)
             del self.dm[child_to_delete_first]
@@ -129,8 +149,6 @@ class NeighborJoining():
             self.dm.append(new_row)
             self.labels.append(node_index)
             node_index += 1
-            for i in range(len(self.dm)):
-                print(self.dm[i])
         
         # Join last 2 nodes
         limb_length = self.dm[0][1] / 2

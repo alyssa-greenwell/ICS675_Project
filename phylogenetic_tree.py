@@ -28,7 +28,7 @@ if __name__ == "__main__":
             "sunda_clouded_leopard", "tiger"]
     
     # Create distance matrix from CSV file
-    distance_matrix = read_csv_to_int_array("output/alignment_table.csv")
+    distance_matrix = read_csv_to_int_array("alignment_table.csv")
     
     # Build the UPGMA tree
     upgma_tree_builder = UPGMA(distance_matrix, labels)
