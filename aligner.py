@@ -2,7 +2,19 @@
 import numpy as np
 
 class Aligner():
+    """
+    Implements the Levenshtein distance algorithm to calculate the distance
+    between two sequences.
     
+    Input:
+    score_matrix: 2-d numpy array with the scoring matrix.
+    score_map: maps the IUPAC codes (A, T, C, G) to indexes in the scoring matrix.
+    gap_penalty: score for a gap in the alignment.
+    seq1: the first sequence to align.
+    seq2: the second sequence to align.
+    
+    Outputs the alignment score as an integer.
+    """
     def __init__(self, score_matrix, gap_penalty, score_map):
         self.gap_penalty = gap_penalty
         self.score_matrix = score_matrix

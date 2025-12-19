@@ -1,4 +1,13 @@
 #!/usr/bin/env python
+"""
+Creates a distance matrix for seventeen felidae species.
+
+Using fasta files in cat_mitochondria_genomes/*.fasta, This algorithm creates
+a distance matrix for seventeen felidae species. The labels and filepaths for
+the fasta files are hard-coded. Runs best on 32 cores.
+
+--demo: uses just three felidae species for testing. Runs on 6 cores.
+"""
 from aligner import Aligner
 import argparse
 import csv
